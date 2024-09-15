@@ -1,5 +1,7 @@
 # React-Twitter
 
+## cd .\frontend\
+
 ```node
-test
+npm create vite@latest .
 ```
