@@ -2,9 +2,7 @@ import express from "express";
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('server is ready');
-})
+app.use("/api/auth", authRoutes);
 
 app.listen(8000, () => {
     console.log('Server running on this port');
