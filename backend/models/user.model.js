@@ -33,5 +33,22 @@ const userSchema = new mongoose.Schema({
             ref: "User",
             default: [],
         }
-    ]
-})
+    ],
+
+    profileImg: {
+        type: string,
+        default: "",
+    },
+    coverImg: {
+        type: string,
+        default:"",
+    },
+    bio: {
+        type: string,
+        default:"",
+    },
+    link: {
+        type:string,
+        default: "",
+    }
+}, {timestamps: true});
