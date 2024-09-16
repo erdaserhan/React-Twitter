@@ -31,10 +31,19 @@ export const signup = async (req, res) => {
             password:hashPassword
         })
 
+        if(newUser){
+            generateTokenAndSetCookie(newUser._id,res)
+            await newUser.save();
+
+            return res.status(201).json({message:"User created successfully"});
+        }else {
+
+        }
+
     }catch(error) {
 
     }
-}
+};
 
 export const login = async (req, res) => {
     res.json({
