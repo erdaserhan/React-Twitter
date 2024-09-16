@@ -1,3 +1,5 @@
+import User from "../models/user.model.js";
+
 export const signup = async (req, res) => {
     try {
         const { fullName, username, email, password } = req.body;
@@ -7,7 +9,10 @@ export const signup = async (req, res) => {
             return res.status(400).json({ error: "Invalid email format" });
         }
 
-        const existingUser
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ error: "Username is already exists" });
+        }
     }catch(error) {
 
     }
