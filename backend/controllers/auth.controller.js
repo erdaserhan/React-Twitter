@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 
 export const signup = async (req, res) => {
     try {
@@ -18,6 +19,18 @@ export const signup = async (req, res) => {
         if (existingEmail) {
             return res.status(400).json({ error: "Email is already exists" });
         }
+
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        const newUser = new User({
+            fullName,       //fullName:fullName
+            username,       //username:username
+            email,          //email:email
+            password:hashPassword
+        })
+
     }catch(error) {
 
     }
