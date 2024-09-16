@@ -1,7 +1,7 @@
 export const signup = async (req, res) => {
-    res.json({
-        date: "You hit the signup endpoint",
-    });
+    try {
+
+    }
 }
 
 export const login = async (req, res) => {
