@@ -1,6 +1,8 @@
 # React-Twitter
 
-### cd .\frontend\
+Create backend and frontend folders
+
+    cd .\frontend\
 
 ```node
 npm create vite@latest .
@@ -20,3 +22,4 @@ npm init -y
 npm install express mongoose jsonwebtoken bcryptjs dotenv cors cookie-parser cloudinary
 npm i -D nodemon
 ```
+
