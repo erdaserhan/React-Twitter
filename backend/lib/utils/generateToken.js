@@ -10,5 +10,5 @@ export const generateTokenAndSetCookie = (userId, res) => {
         httpOnly: true, //prevent XSS attacks cross-site scripting attacks
         sameSite: "strict", //CSRF attacks croos-site request forgery attacks
         secure: process.env.NODE_ENV !== "development",
-    })
-}
+    });
+};
