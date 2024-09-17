@@ -3,10 +3,8 @@
 Create backend and frontend folders
 
     cd .\frontend\
+    npm create vite@latest .
 
-```node
-npm create vite@latest .
-```
 
 ### √ Select a framework: » React
 ### √ Select a variant: » JavaScript
