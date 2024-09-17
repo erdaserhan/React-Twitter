@@ -6,18 +6,30 @@ Create backend and frontend folders
     npm create vite@latest .
 
 
-### √ Select a framework: » React
-### √ Select a variant: » JavaScript
+√ Select a framework: » React
+√ Select a variant: » JavaScript
 
-```node
-npm install
-```
 
-### --Root--
+    npm install
 
-```node
-npm init -y
-npm install express mongoose jsonwebtoken bcryptjs dotenv cors cookie-parser cloudinary
-npm i -D nodemon
-```
 
+--Root--
+
+    npm init -y
+    npm install express mongoose jsonwebtoken bcryptjs dotenv cors cookie-parser cloudinary
+    npm i -D nodemon
+
+package.json => 
+    "type": "module" 
+    "main": "backend/server.js" 
+    "dev": "nodemon backend/server.js" 
+    "start": "node backend/server.js"
+
+backend/server.js => 
+    import express ...
+    app.listen(...)
+
+create folders
+    backend/controllers
+    backend/routes
+    backend/models
