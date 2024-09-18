@@ -1,9 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
+
 import connectMongoDB from "./db/connectMongoDB.js";
-import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -17,7 +19,6 @@ app.use(cookieParser()); //we can get the cookies
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
