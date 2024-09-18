@@ -94,15 +94,17 @@ export const logout = async (req, res) => {
         res.cookie("jwt", "", {maxAge:0})
         res.status(200).json({message: "Logged out successfully"})
     }catch(error) {
-        console.log("eroor in logout controller", error.message);
+        console.log("Error in logout controller", error.message);
         res.status(500).json({error: "Internal Server Error"});
     }
 };
 
 export const getMe = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id)
+        const user = await User.findById(req.user._id).select("-password"); //req.user we added in protectRoutes.js 
+        res.status(200).json(user);
     }catch(error) {
-
+        console.log("Error in getMe controller", error.message);
+        res.status(500).json({error: "Internal Server Error"});
     }
 }
