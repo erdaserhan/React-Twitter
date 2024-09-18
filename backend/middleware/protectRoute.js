@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import jwt from "jsonwebtoken";
 
 export const protectRoute = async (req, res, next) => {
     try {
@@ -13,10 +14,10 @@ export const protectRoute = async (req, res, next) => {
             return res.status(401).json({ error: "Unauthorized: Invalid Token"});
         }
 
-        const user = await User.findById(decoded.UserId).select("-password") //UserId= payload in this token. We don't want to return the password so .select("-password"). We user userId to find User in our database.
+        const user = await User.findById(decoded.userId).select("-password"); //UserId= payload in this token. We don't want to return the password so .select("-password"). We user userId to find User in our database.
 
         if(!user) {
-            return res.status(404).json({ error: "User nor found"});
+            return res.status(404).json({ error: "User not found"});
         }
 
         req.user = user;
@@ -25,4 +26,4 @@ export const protectRoute = async (req, res, next) => {
         console.log("Error in protectRoute middleware", error.message);
         res.status(500).json({error: "Internal Server Error"});
     }
-}
+};
