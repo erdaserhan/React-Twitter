@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Notification from "../models/notification.model.js";
 
 export const getUserProfile = async (req, res) => {
     const { username } = req.params;   
@@ -41,6 +42,11 @@ export const followUnfollowUser = async (req, res) => {
             await User.findByIdAndUpdate(id, { $push: {followers: req.user._id}}); //User that we would like to follow. we update the followers array. we push id of the currentUser
             await User.findByIdAndUpdate(req.user._id, { $push: {following: id}}); //we add in the following array the id of the user that we followed.
             //Send notification to the user
+            const newNotification = new Notification({
+                type: "follow",
+                from: req.user._id,
+                to: userToModify._id,
+            })
             res.status(200).json({ error: "User followed successfully"});
         }
     } catch (error) {
