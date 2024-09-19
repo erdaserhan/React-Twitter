@@ -43,7 +43,8 @@ export const followUnfollowUser = async (req, res) => {
             await User.findByIdAndUpdate(id, { $push: {followers: req.user._id}}); //User that we would like to follow. we update the followers array. we push id of the currentUser
             await User.findByIdAndUpdate(req.user._id, { $push: {following: id}}); //we add in the following array the id of the user that we followed.
             //Send notification to the user
-            const newNotification = new Notification({
+            //Model imported from notification.model.js
+            const newNotification = new Notification({ 
                 type: "follow",
                 from: req.user._id,
                 to: userToModify._id,
@@ -57,5 +58,16 @@ export const followUnfollowUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({error: error.message});
         console.log("Error in followUnfollowUser : ", error.message);
+    }
+};
+
+export const getSuggestedUsers = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const usersFollowedByMe = await User.findById(userId).select('following');
+        
+    } catch ( ) {
+        
     }
 };
