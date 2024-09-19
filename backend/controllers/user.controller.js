@@ -89,3 +89,11 @@ export const getSuggestedUsers = async (req, res) => {
         console.log("Error in getSuggestedUsers : ", error.message);
     }
 };
+
+export const updateUser = async (res, req) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
