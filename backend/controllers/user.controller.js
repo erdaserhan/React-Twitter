@@ -66,8 +66,26 @@ export const getSuggestedUsers = async (req, res) => {
         const userId = req.user._id;
 
         const usersFollowedByMe = await User.findById(userId).select('following');
+
+
+        //We want to get 10 different users and not the authenticated user which is "$ne: userId"
+        const users = await User.aggregate([
+            {
+                $match: {
+                    _id: {$ne: userId} //$ne = not equal to userId
+                }
+            },
+            {$sample:{size:10}} //We get 10 different values
+        ])
         
-    } catch ( ) {
-        
+        const filteredUsers = users.filter(user=>!usersFollowedByMe.following.includes(user._id)); //Exclude the usersFollowedByMe. The users that I have in my following array will be out.
+        const suggestedUsers = filteredUsers.slice(0,4) //We get 4 different values
+
+        suggestedUsers.forEach(user=>user.password=null) //suggestedUsers will have the passwords. We put it as null.
+
+        res.status(200).json(suggestedUsers)
+    } catch (error) {
+        res.status(500).json({error: error.message});
+        console.log("Error in getSuggestedUsers : ", error.message);
     }
 };
