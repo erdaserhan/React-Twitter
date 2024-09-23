@@ -62,3 +62,37 @@ export const deletePost = async (req, res) => {
         console.log("Error in deletePost controller: ", error);
     }
 };
+
+export const commentOnPost = async (req, res) => {
+    try {
+        const { text } = req.body;
+        const postId = req.params.id;
+        const userId = req.user._id;
+
+        if(!text) {
+            return res.status(400).json({ error: "Text field is required"});
+        }
+
+        const post = await Post.findById(postId);
+
+        if(!post) {
+            return res.status(404).json({ error: "Post not found"});
+        }
+
+        //we create the comment
+        const comment = {
+            user: userId,
+            text
+        }
+
+        //We push the comment in comments array
+        post.comments.push(comment);
+        //Save to DB
+        await post.save();
+
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"});
+        console.log("Error in commentOnPost controller: ", error);
+    }
+}
