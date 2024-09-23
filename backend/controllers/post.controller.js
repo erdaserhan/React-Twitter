@@ -134,4 +134,28 @@ export const likeUnlikePost =async (req, res) => {
         res.status(500).json({error: "Internal server error"});
         console.log("Error in likeUnlikePost controller: ", error);
     }
-}
+};
+
+export const getAllPosts = async (req, res) => {
+    try {
+        const posts = await Post.find() //Post.find() gives us all the posts in the DB
+        .sort({ createdAt: -1 })    // .sort({ createdAt: -1 }) gives us the latest post at the top
+        .populate({                 //with .populate we get all the field that this ""user" document has 
+            path: "user",
+            select: "-password",
+        })
+        .populate({
+            path: "comments.user",  //with .populate we get all the field that this ""comments.user" document has. usernama,fullName, email, followers ... etc (user.model.js) 
+            select: "-password",    //We do not want to get the password. with .populate we can not use select('-password'). We use select
+        })
+
+        if(posts.length === 0){
+            return res.status(200).json([]); //We return empty array because we do not have any posts in the DB
+        }
+
+        return res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"});
+        console.log("Error in getAllPosts controller: ", error);
+    }
+};
