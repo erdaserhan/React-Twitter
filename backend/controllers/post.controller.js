@@ -113,11 +113,13 @@ export const likeUnlikePost =async (req, res) => {
         const userLikedPost = post.likes.includes(userId);
         if(userLikedPost){
             //Unlike post
-            await Post.updateOne({_id:postId}, {$pull: {likes: userId}})
+            await Post.updateOne({ _id: postId }, { $pull: {likes: userId }});
+            await User.updateOne({ _id: userId }, { $pull: {likedPosts: postId }});
             return res.status(200).json({ message: "Post unliked successfully"});
         }else{
             //Like post
             post.likes.push(userId);
+            await User.updateOne({ _id: userId }, { $push: { likedPosts: postId }});
             await post.save();
 
             //We create the notification
@@ -159,3 +161,29 @@ export const getAllPosts = async (req, res) => {
         console.log("Error in getAllPosts controller: ", error);
     }
 };
+
+export const getLikedPosts = async (req, res) => {
+
+    const userId = req.params.id;
+
+    try {
+        const user = await User.findById(userId); //Find the user by ID
+        if(!user) res.status(404).json({error: "User not found"});
+
+        const likedPosts = await Post.find({ _id: { $in: user.likedPosts }}) //All the posts that this user has liked
+        .populate({
+            path: "user",
+            select: "-password",
+        })
+        .populate({
+            path: "comments.user",
+            select: "-password",
+        })
+
+        res.status(200).json(likedPosts);
+
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"});
+        console.log("Error in getLikedPosts controller: ", error);
+    }
+}

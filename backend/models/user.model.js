@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Post",
-            default: [],
+            default: [], //By default this user will not have any liked posts.First signup they did not like any post
         },
     ],
     }, 
