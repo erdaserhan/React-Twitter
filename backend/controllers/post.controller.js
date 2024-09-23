@@ -95,4 +95,8 @@ export const commentOnPost = async (req, res) => {
         res.status(500).json({error: "Internal server error"});
         console.log("Error in commentOnPost controller: ", error);
     }
+};
+
+export const likeUnlikePost =async (req, res) => {
+
 }
