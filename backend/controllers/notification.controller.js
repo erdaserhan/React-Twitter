@@ -4,7 +4,7 @@ export const getNotifications = async (req, res) => {
 
     try {
         const userId = req.user._id;
-        
+
         const notifications = await Notification.find({ to:userId }) //We have a field called to in Notification. If it match with the user id, get all the notifications for this user.
         .populate({
             path: 'from',
@@ -23,8 +23,13 @@ export const getNotifications = async (req, res) => {
 
 export const deleteNotifications = async (req, res) => {
     try {
-        
+        const userId = req.user._id;
+
+        await Notification.deleteMany({ to:userId});
+
+        res.status(200).json({ message: "Notifications deleted successfully" });
     } catch (error) {
-        
+        console.log("Error in deleteNotifications function: ", error.message);
+        res.status(500).json({error: "Internal server error"}); 
     }
 };
