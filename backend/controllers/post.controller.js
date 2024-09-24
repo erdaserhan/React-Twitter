@@ -212,3 +212,7 @@ export const getFollowingPosts = async (req, res) => {
         console.log("Error in getFollowingPosts controller: ", error);
     }
 };
+
+export const getUserPosts = async (req, res) => {
+
+}; 
