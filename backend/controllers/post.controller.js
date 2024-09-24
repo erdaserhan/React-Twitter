@@ -189,5 +189,26 @@ export const getLikedPosts = async (req, res) => {
 };
 
 export const getFollowingPosts = async (req, res) => {
-    
+    try {
+        const userId = req.user._id; //We get the Id of the currently authenticated user
+        const user = await User.findById(userId);  //We check if we have this user or not
+        if(!user) res.status(404).json({error: "User not found"});
+
+        const following = user.following;
+        const feedPosts = await Post.find({ user: { $in: following }}) //We check if the following array has this user
+        .sort({createdAt: -1}) //We get the latest post at the top
+        .populate({
+            path: 'user',
+            select: '-password',
+        })
+        .populate({
+            path: 'comments.user',
+            select: '-password'
+        });
+
+        res.status(200).json(feedPosts); //Return feedPost as a response
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"});
+        console.log("Error in getFollowingPosts controller: ", error);
+    }
 };
