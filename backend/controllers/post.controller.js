@@ -142,7 +142,7 @@ export const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.find() //Post.find() gives us all the posts in the DB
         .sort({ createdAt: -1 })    // .sort({ createdAt: -1 }) gives us the latest post at the top
-        .populate({                 //with .populate we get all the field that this ""user" document has 
+        .populate({                 //with .populate we get all the field that this "user" document has. So we can show these fields for the posts. 
             path: "user",
             select: "-password",
         })
@@ -164,13 +164,13 @@ export const getAllPosts = async (req, res) => {
 
 export const getLikedPosts = async (req, res) => {
 
-    const userId = req.params.id;
+    const userId = req.params.id; //we get the :id of the user that we called on post.routes.js which is => router.get('/likes/:id', protectRoute, getLikedPosts);
 
     try {
         const user = await User.findById(userId); //Find the user by ID
         if(!user) res.status(404).json({error: "User not found"});
 
-        const likedPosts = await Post.find({ _id: { $in: user.likedPosts }}) //All the posts that this user has liked
+        const likedPosts = await Post.find({ _id: { $in: user.likedPosts }}) //All the posts that this user has liked. We verify if the user.likedPost array includes this post _id.
         .populate({
             path: "user",
             select: "-password",
@@ -186,4 +186,8 @@ export const getLikedPosts = async (req, res) => {
         res.status(500).json({error: "Internal server error"});
         console.log("Error in getLikedPosts controller: ", error);
     }
-}
+};
+
+export const getFollowingPosts = async (req, res) => {
+    
+};
