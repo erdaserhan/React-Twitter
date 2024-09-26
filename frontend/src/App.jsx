@@ -7,7 +7,7 @@ import Sidebar from "./components/common/Sidebar";
 function App() {
   return (
     <div className="flex max-w-6xl mx-auto">
-      {/* Common component, bcs iy's not wrapped with Routes */}
+      {/* Common component, bcs it's not wrapped with Routes */}
       <Sidebar />
       <Routes>
         <Route path='/' element={<HomePage />} />
