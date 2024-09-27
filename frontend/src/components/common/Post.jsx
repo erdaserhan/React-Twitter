@@ -5,13 +5,40 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast }  from "react-hot-toast";
 
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
+	const {data:authUser} = useQuery({ queryKey: ["authUser"]}); //we get the authenticated user
+
+	const {mutate:deletePost, isPending} = useMutation({
+		mutationFn: async() => {
+			try {
+				const res = await fetch(`/api/posts/${posts._id}`, {
+					method: "DELETE",
+				})
+
+				const data = await res.json();
+
+				if(!res.ok) {
+					throw new Error(error);
+				}
+				return data;
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
+		onSuccess: () => {
+			toast.success("Post deleted successfully")
+			//invalidate the query to refetch the data. So it diseppaers directly when we delete
+		} 
+	})
+
 	const postOwner = post.user;
 	const isLiked = false;
 
-	const isMyPost = true;
+	const isMyPost = authUser._id === post.user._id; //if this is my post verification
 
 	const formattedDate = "1h";
 
