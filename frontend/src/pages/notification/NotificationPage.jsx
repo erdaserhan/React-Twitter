@@ -23,7 +23,7 @@ const NotificationPage = () => {
 			}
 		},
 	});
-
+ 
 	const {mutate:deleteNotifications} = useMutation({
 		mutationFn: async() => {
 			try {
