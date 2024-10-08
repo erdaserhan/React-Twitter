@@ -18,11 +18,11 @@ const EditProfileModal = ({ authUser }) => {
 
 	
 	const {mutate:updateProfile, isPending:isUpdatingProfile} = useMutation({
-		mutationFn: async(formData) => {
+		mutationFn: async() => {
 			try {
 				const res = await fetch(`/api/users/update`, {
 					method:"POST",
-					header: {
+					headers : {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify(formData),
@@ -52,6 +52,7 @@ const EditProfileModal = ({ authUser }) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
+	// To get the default values of the person when we click -Edit Profile- button
 	useEffect(() => {
 		if(authUser){
 			setFormData({
